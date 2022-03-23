@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% extends 'price/base.html' %}
+{% load static %}
+
+{% block body_block %}
+<link rel="stylesheet"  href="{% static 'css/home.css' %}">
+            <h1>Do you want to sell something?</h1><br><br>
+                    <h5>Don't Worry we will help you to get the best price.</h5><bR>
+<script>
+   $(function(){
+    $(".dropdown-menu").on('click', 'a', function(){
+      $("#selected").text($(this).text());
+   });
+});
+</script>
+<form method="post" action="{% url 'price:index' %}">
+<select class="custom-select" style="width:30%; background-color:#ffc107;" name="item">
+  <option
+
+     href="#" role="button" id="dropdownMenuLinkk" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   <span id="selected">Please select type...</span><span class="caret"></span></option>
+  </option>
+    {% for item in items %}
+    <option  href="#">{{item}}</option>
+    {% endfor %}
+</select>
+</div>
+<br><br><div>
+    {% csrf_token %}
+    <button type="submit" class="btn btn-warning">Submit</button></div><br><br>
+    {% if error %}
+    <h5 style="color:red;">{{error}}</h5>
+    {% endif %}
+</form>
+{% endblock %}
