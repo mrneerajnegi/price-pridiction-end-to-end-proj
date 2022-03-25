@@ -2,5 +2,99 @@
 {% extends 'price/base.html' %}
 {% load static %}
 {% block body_block %}
-<h1>Development is in progress</h1>
+
+<link rel="stylesheet"  href="{% static 'css/input.css' %}">
+<h1>Please fill the details</h1>
+<div class="container" style="width:50%">
+    {% if successMsg %}
+   <h5 style="color:green;">{{successMsg}}</h5>
+    {% endif %}
+  {% if error %}
+    <h5 style="color:red;">{{error}}</h5>
+    {% endif %}
+<form method="post">
+  {% csrf_token %}
+  <div class="form-group">
+<br>    <select class="custom-select" id="Name" style="width:100%; background-color:#ffc107;" name="posted">
+  <option
+     href="#" role="button" id="dropdownMenuLinkk" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   <span >Posted By?</span><span class="caret"></span></option>
+  </option>
+    {% for posted in posted_by %}
+    <option  href="#">{{posted}}</option>
+    {% endfor %}
+</select>
+  </div>
+  <br>
+    <div class="form-group">
+     <select class="custom-select"  style="width:100%; background-color:#ffc107;" name="under_construction">
+  <option
+     href="#" role="button"    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   <span >Is this property under construction?</span><span class="caret"></span></option>
+  </option>
+    {% for value  in yes_no %}
+    <option  href="#">{{value}}</option>
+    {% endfor %}
+</select>
+  </div>
+    <br>
+     <div class="form-group">
+     <select class="custom-select"  style="width:100%; background-color:#ffc107;" name="rera">
+  <option
+     href="#" role="button"    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   <span >Is this property RERA type?</span><span class="caret"></span></option>
+  </option>
+    {% for value  in yes_no %}
+    <option  href="#">{{value}}</option>
+    {% endfor %}
+</select>
+  </div>
+     <br>
+     <div class="form-group">
+     <select class="custom-select"  style="width:100%; background-color:#ffc107;" name="bhk">
+  <option
+     href="#" role="button"    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   <span >Select bedrooms?</span><span class="caret"></span></option>
+  </option>
+    {% for bhk  in bhk_no %}
+    <option  href="#">{{bhk}}</option>
+    {% endfor %}
+</select>
+  </div>
+     <br>
+     <div class="form-group">
+     <select class="custom-select"  style="width:100%; background-color:#ffc107;" name="ready_to_move">
+  <option
+     href="#" role="button"    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   <span >Is this property ready to move?</span><span class="caret"></span></option>
+  </option>
+    {% for value  in yes_no %}
+    <option  href="#">{{value}}</option>
+    {% endfor %}
+</select>
+  </div>
+     <br>
+     <div class="form-group">
+     <select class="custom-select"  style="width:100%; background-color:#ffc107;" name="resale">
+  <option
+     href="#" role="button"    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+   <span >are you resaling this property?</span><span class="caret"></span></option>
+  </option>
+    {% for value  in yes_no %}
+    <option  href="#">{{value}}</option>
+    {% endfor %}
+</select>
+  </div>
+  <br>
+
+  <div class="form-group">
+      <input type="text" style="background-color:#ffc107;" class="form-control" name="square_ft" placeholder="Square foot">
+  </div>
+
+
+  <button type="submit" class="btn btn-warning">Submit</button>
+
+</form>
+
+</div>
 {% endblock %}

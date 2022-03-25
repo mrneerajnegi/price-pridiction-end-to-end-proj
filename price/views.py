@@ -6,6 +6,8 @@ import pandas as pd
 
 bikeModel = pickle.load(open("price/bike.pkl", "rb"))
 carModel= pickle.load(open("price/car.pkl", "rb"))
+houseModel= pickle.load(open("price/house.pkl", "rb"))
+
 
 class Home(TemplateView):
     template_name = "price/index.html"
@@ -55,7 +57,7 @@ class Bike(TemplateView):
             print(data)
             prediction=bikeModel.predict(data)
             print(prediction)
-            successMsg="Market price will be around "+str(int(prediction))
+            successMsg="Market price of this bike will be around "+str(int(prediction))
             return render(request, "price/bike.html",
                           {
                            "owner":self.owner,
@@ -84,7 +86,6 @@ class Car(TemplateView):
                        })
 
     def post(self,request):
-        print(request.POST)
         if request.POST["name"]=="Select Vehicle Name" or   request.POST["fuel"]=="Select Fuel Type" or request.POST["model"]=="Select Model" or not request.POST["kms_driven"] :
             return render(request, "price/car.html",
                           {"error": "Please fill all fields",
@@ -96,7 +97,7 @@ class Car(TemplateView):
             print(data)
             prediction=carModel.predict(data)
             print(prediction)
-            successMsg="Market price will be around "+str(int(prediction))
+            successMsg="Market price of this car will be around "+str(int(prediction))
             return render(request, "price/car.html",
                           {
                            "vehiclename": self.vehiclename,
@@ -106,6 +107,36 @@ class Car(TemplateView):
                            })
 
 class House(TemplateView):
-    template_name = "price/house.html"
+    posted_by = ["Dealer", "Owner", "Builder"]
+    yes_no=["Yes","No"]
+    bhk_no=[1,2,3,4,5]
 
+    def get(self,request):
+        return  render(request,"price/house.html",
+                       {"posted_by":self.posted_by,
+                        "yes_no":self.yes_no,
+                        "bhk_no":self.bhk_no
+                        })
 
+    def post(self,request):
+        if request.POST["posted"]=="Posted By?" or  request.POST["under_construction"]=="Is this property under construction?" or request.POST["rera"]=="Is this property RERA type?" or request.POST["bhk"]=="Select bedrooms?" or request.POST["ready_to_move"]=="Is this property ready to move?" or request.POST["resale"]=="are you resaling this property?" or not request.POST["square_ft"] :
+            return render(request, "price/house.html",
+                          {"error": "Please fill all fields",
+                           "posted_by":self.posted_by,
+                           "yes_no":self.yes_no,
+                           "bhk_no":self.bhk_no
+                           })
+
+        else:
+            data=pd.DataFrame([{"POSTED_BY": request.POST["posted"], "UNDER_CONSTRUCTION": int(bool(request.POST["under_construction"])), "RERA": int(bool(request.POST["rera"])), "BHK_NO.":int(request.POST["bhk"]),"SQUARE_FT":int(request.POST["square_ft"]),"READY_TO_MOVE":int(bool(request.POST["ready_to_move"])),"RESALE":int(bool(request.POST["resale"])),}])
+            print(data)
+            prediction=houseModel.predict(data)
+            print(prediction)
+            successMsg="Market price of this house will be around "+str(int(prediction)) +" Lakh"
+            return render(request, "price/house.html",
+                          {
+                           "posted_by":self.posted_by,
+                           "yes_no":self.yes_no,
+                           "bhk_no":self.bhk_no,
+                           "successMsg":successMsg
+                           })

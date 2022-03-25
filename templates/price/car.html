@@ -8,8 +8,6 @@
 <div class="container" style="width:50%">
 <form method="post">
   {% csrf_token %}
-    {% if item == "Car" %}
-
   <div class="form-group">
 <br><br>    <select class="custom-select" id="Name" style="width:100%; background-color:#ffc107;" name="name">
   <option
@@ -52,11 +50,7 @@
 
 
   <button type="submit" class="btn btn-warning">Submit</button>
-   {% elif item == "Bike" %}
-  <h3 style="color:white;">Bike UI is in progress...</h3>
-  {% else %}
-   <h3 style="color:white;">House UI is in progress...</h3>
-     {% endif %}
+
 </form>
 
 
